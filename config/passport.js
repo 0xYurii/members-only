@@ -3,13 +3,13 @@ import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import pool from "../db/pool.js";
 
-// Passport configuration
+// Passport configuration - using email as username field
 passport.use(
   new LocalStrategy(
-    { usernameField: "email" }, // Use email instead of username
+    { usernameField: "email" }, // Use email for login
     async (email, password, done) => {
       try {
-        // Find user in database
+        // Find user in database by email
         const { rows } = await pool.query(
           "SELECT * FROM users WHERE email = $1",
           [email]
@@ -21,8 +21,14 @@ passport.use(
           return done(null, false, { message: "Incorrect email" });
         }
 
+        // Check if password_hash exists
+        if (!user.password_hash) {
+          console.error("User found but password_hash is missing:", user);
+          return done(null, false, { message: "Authentication error" });
+        }
+
         // Compare password with hashed password
-        const match = await bcrypt.compare(password, user.password);
+        const match = await bcrypt.compare(password, user.password_hash);
         if (!match) {
           return done(null, false, { message: "Incorrect password" });
         }
@@ -30,6 +36,7 @@ passport.use(
         // Success!
         return done(null, user);
       } catch (err) {
+        console.error("Passport authentication error:", err);
         return done(err);
       }
     }

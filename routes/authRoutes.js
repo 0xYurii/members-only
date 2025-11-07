@@ -6,6 +6,7 @@ import {
   postLogin,
   getLogout,
   getCurrentUser,
+  postJoinClub,
 } from "../controllers/authController.js";
 
 const router = express.Router();
@@ -26,5 +27,8 @@ router.get("/log-out", getLogout);
 
 // Get current user
 router.get("/current-user", getCurrentUser);
+
+// Join club with passcode
+router.post("/join-club", postJoinClub);
 
 export default router;

@@ -4,6 +4,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "url";
 import passport from "./config/passport.js";
 import authRoutes from "./routes/authRoutes.js";
+import messageRoutes from "./routes/messageRoutes.js";
 
 const app = express();
 const PORT = 3000;
@@ -37,6 +38,7 @@ app.use(express.static(join(__dirname, "public")));
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/messages", messageRoutes);
 
 // Serve index.html for root route
 app.get("/", (req, res) => {

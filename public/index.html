@@ -3,30 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Members Only</title>
+    <title>Members Only Club</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="form-container" id="login-container">
-            <form id="login-form">
-                <h2>Login</h2>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-                <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
-            </form>
+        <!-- Header/Nav -->
+        <header id="header" style="display: none;">
+            <h1>Members Only Club</h1>
+            <nav>
+                <span id="user-info"></span>
+                <button id="logout-btn" class="btn-secondary">Logout</button>
+            </nav>
+        </header>
+
+        <!-- Auth Forms -->
+        <div id="auth-section">
+            <div class="form-container" id="login-container">
+                <form id="login-form">
+                    <h2>Login</h2>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="password" name="password" placeholder="Password" required>
+                    <button type="submit">Login</button>
+                    <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                </form>
+            </div>
+            <div class="form-container" id="signup-container" style="display: none;">
+                <form id="signup-form">
+                    <h2>Sign Up</h2>
+                    <input type="text" name="firstName" placeholder="First Name" required>
+                    <input type="text" name="lastName" placeholder="Last Name" required>
+                    <input type="email" name="email" placeholder="Email" required>
+                    <input type="text" name="username" placeholder="Username" required>
+                    <input type="password" name="password" placeholder="Password (min 6 characters)" required minlength="6">
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
+                    <label>
+                        <input type="checkbox" name="isAdmin"> Make me an admin
+                    </label>
+                    <button type="submit">Sign Up</button>
+                    <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+                </form>
+            </div>
         </div>
-        <div class="form-container" id="signup-container" style="display: none;">
-            <form id="signup-form">
-                <h2>Sign Up</h2>
-                <input type="text" name="username" placeholder="Username" required>
-                <input type="email" name="email" placeholder="Email" required>
-                <input type="password" name="password" placeholder="Password" required>
-                <button type="submit">Sign Up</button>
-                <p>Already have an account? <a href="#" id="show-login">Login</a></p>
-            </form>
-        </div>
+
+        <!-- Main Content (shown when logged in) -->
+        <main id="main-content" style="display: none;">
+            <!-- Join Club Section (for non-members) -->
+            <div id="join-club-section" style="display: none;">
+                <div class="info-box">
+                    <h3>🔒 Join the Club</h3>
+                    <p>Enter the secret passcode to become a member and see who wrote each message!</p>
+                    <form id="join-club-form">
+                        <input type="text" name="passcode" placeholder="Secret Passcode" required>
+                        <button type="submit">Join Club</button>
+                    </form>
+                    <p class="hint">Hint: The passcode is "SECRET123" (or check your .env file)</p>
+                </div>
+            </div>
+
+            <!-- Create Message Section (for logged-in users) -->
+            <div id="create-message-section" style="display: none;">
+                <button id="toggle-message-form" class="btn-primary">Create New Message</button>
+                <div id="message-form-container" style="display: none;">
+                    <form id="create-message-form">
+                        <h3>Create New Message</h3>
+                        <input type="text" name="title" placeholder="Message Title" required>
+                        <textarea name="text" placeholder="Message Text" rows="4" required></textarea>
+                        <div class="form-buttons">
+                            <button type="submit" class="btn-primary">Post Message</button>
+                            <button type="button" id="cancel-message" class="btn-secondary">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Messages Display -->
+            <div id="messages-section">
+                <h2>Club Messages</h2>
+                <div id="messages-container">
+                    <p class="loading">Loading messages...</p>
+                </div>
+            </div>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>
